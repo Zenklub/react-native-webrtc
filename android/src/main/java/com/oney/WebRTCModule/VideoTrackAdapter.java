@@ -2,9 +2,9 @@ package com.oney.WebRTCModule;
 
 import android.util.*;
 
-import org.webrtc.VideoFrame;
-import org.webrtc.VideoSink;
-import org.webrtc.VideoTrack;
+import alt.webrtc.VideoFrame;
+import alt.webrtc.VideoSink;
+import alt.webrtc.VideoTrack;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;

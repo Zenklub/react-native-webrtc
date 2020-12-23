@@ -16,13 +16,13 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Objects;
 
-import org.webrtc.EglBase;
-import org.webrtc.MediaStream;
-import org.webrtc.RendererCommon;
-import org.webrtc.RendererCommon.RendererEvents;
-import org.webrtc.RendererCommon.ScalingType;
-import org.webrtc.SurfaceViewRenderer;
-import org.webrtc.VideoTrack;
+import alt.webrtc.EglBase;
+import alt.webrtc.MediaStream;
+import alt.webrtc.RendererCommon;
+import alt.webrtc.RendererCommon.RendererEvents;
+import alt.webrtc.RendererCommon.ScalingType;
+import alt.webrtc.SurfaceViewRenderer;
+import alt.webrtc.VideoTrack;
 
 public class WebRTCView extends ViewGroup {
     /**

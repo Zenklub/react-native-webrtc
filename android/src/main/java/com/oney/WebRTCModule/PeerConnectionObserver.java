@@ -12,14 +12,14 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 
-import org.webrtc.AudioTrack;
-import org.webrtc.DataChannel;
-import org.webrtc.IceCandidate;
-import org.webrtc.MediaStream;
-import org.webrtc.MediaStreamTrack;
-import org.webrtc.PeerConnection;
-import org.webrtc.RtpReceiver;
-import org.webrtc.VideoTrack;
+import alt.webrtc.AudioTrack;
+import alt.webrtc.DataChannel;
+import alt.webrtc.IceCandidate;
+import alt.webrtc.MediaStream;
+import alt.webrtc.MediaStreamTrack;
+import alt.webrtc.PeerConnection;
+import alt.webrtc.RtpReceiver;
+import alt.webrtc.VideoTrack;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;

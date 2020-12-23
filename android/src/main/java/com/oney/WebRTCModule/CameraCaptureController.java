@@ -4,9 +4,9 @@ import android.util.Log;
 
 import com.facebook.react.bridge.ReadableMap;
 
-import org.webrtc.CameraEnumerator;
-import org.webrtc.CameraVideoCapturer;
-import org.webrtc.VideoCapturer;
+import alt.webrtc.CameraEnumerator;
+import alt.webrtc.CameraVideoCapturer;
+import alt.webrtc.VideoCapturer;
 
 import java.util.ArrayList;
 import java.util.List;

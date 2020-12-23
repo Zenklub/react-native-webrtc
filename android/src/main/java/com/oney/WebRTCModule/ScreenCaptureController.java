@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.media.projection.MediaProjection;
 import android.util.Log;
 
-import org.webrtc.ScreenCapturerAndroid;
-import org.webrtc.VideoCapturer;
+import alt.webrtc.ScreenCapturerAndroid;
+import alt.webrtc.VideoCapturer;
 
 public class ScreenCaptureController extends AbstractVideoCaptureController {
     /**

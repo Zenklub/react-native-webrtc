@@ -2,7 +2,7 @@ package com.oney.WebRTCModule;
 
 import android.util.Log;
 
-import org.webrtc.CameraVideoCapturer;
+import alt.webrtc.CameraVideoCapturer;
 
 class CameraEventsHandler implements CameraVideoCapturer.CameraEventsHandler {
     /**
