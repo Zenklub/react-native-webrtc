@@ -75,9 +75,9 @@ compileOptions {
 If you are getting this error:
 
 ```
-Fatal Exception: java.lang.UnsatisfiedLinkError: No implementation found for void alt.webrtc.PeerConnectionFactory.nativeInitializeAndroidGlobals() (tried Java_org_webrtc_PeerConnectionFactory_nativeInitializeAndroidGlobals and Java_org_webrtc_PeerConnectionFactory_nativeInitializeAndroidGlobals__)
-       at alt.webrtc.PeerConnectionFactory.nativeInitializeAndroidGlobals(PeerConnectionFactory.java)
-       at alt.webrtc.PeerConnectionFactory.initialize(PeerConnectionFactory.java:306)
+Fatal Exception: java.lang.UnsatisfiedLinkError: No implementation found for void com.webrtc.PeerConnectionFactory.nativeInitializeAndroidGlobals() (tried Java_org_webrtc_PeerConnectionFactory_nativeInitializeAndroidGlobals and Java_org_webrtc_PeerConnectionFactory_nativeInitializeAndroidGlobals__)
+       at com.webrtc.PeerConnectionFactory.nativeInitializeAndroidGlobals(PeerConnectionFactory.java)
+       at com.webrtc.PeerConnectionFactory.initialize(PeerConnectionFactory.java:306)
        at com.oney.WebRTCModule.WebRTCModule.initAsync(WebRTCModule.java:79)
        at com.oney.WebRTCModule.WebRTCModule.lambda$new$0(WebRTCModule.java:70)
        at com.oney.WebRTCModule.-$$Lambda$WebRTCModule$CnyHZvkjDxq52UReGHUZlY0JsVw.run(-.java:4)

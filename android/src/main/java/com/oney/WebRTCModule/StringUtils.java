@@ -1,8 +1,8 @@
 package com.oney.WebRTCModule;
 
-import alt.webrtc.PeerConnection;
-import alt.webrtc.RTCStats;
-import alt.webrtc.RTCStatsReport;
+import com.webrtc.PeerConnection;
+import com.webrtc.RTCStats;
+import com.webrtc.RTCStatsReport;
 
 import java.util.Map;
 

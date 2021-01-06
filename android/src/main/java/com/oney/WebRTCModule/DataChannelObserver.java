@@ -8,7 +8,7 @@ import android.util.Base64;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 
-import alt.webrtc.DataChannel;
+import com.webrtc.DataChannel;
 
 class DataChannelObserver implements DataChannel.Observer {
 

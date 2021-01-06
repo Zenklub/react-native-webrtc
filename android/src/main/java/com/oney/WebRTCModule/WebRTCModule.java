@@ -23,9 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import alt.webrtc.*;
-import alt.webrtc.audio.AudioDeviceModule;
-import alt.webrtc.audio.JavaAudioDeviceModule;
+import com.webrtc.*;
+import com.webrtc.audio.AudioDeviceModule;
+import com.webrtc.audio.JavaAudioDeviceModule;
 
 @ReactModule(name = "WebRTCModule")
 public class WebRTCModule extends ReactContextBaseJavaModule {

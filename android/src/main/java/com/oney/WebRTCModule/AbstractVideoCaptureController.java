@@ -1,6 +1,6 @@
 package com.oney.WebRTCModule;
 
-import alt.webrtc.VideoCapturer;
+import com.webrtc.VideoCapturer;
 
 public abstract class AbstractVideoCaptureController {
 
