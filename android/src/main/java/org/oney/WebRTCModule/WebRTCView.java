@@ -1,4 +1,4 @@
-package com.oney.WebRTCModule;
+package org.honey.WebRTCModule;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

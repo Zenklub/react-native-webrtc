@@ -35,7 +35,7 @@ In your `MainApplication.java`:
 protected List<ReactPackage> getPackages() {
     return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
-        new com.oney.WebRTCModule.WebRTCModulePackage() // <-- Add this line
+        new org.honey.WebRTCModule.WebRTCModulePackage() // <-- Add this line
     );
 }
 ```
@@ -78,9 +78,9 @@ If you are getting this error:
 Fatal Exception: java.lang.UnsatisfiedLinkError: No implementation found for void com.webrtc.PeerConnectionFactory.nativeInitializeAndroidGlobals() (tried Java_org_webrtc_PeerConnectionFactory_nativeInitializeAndroidGlobals and Java_org_webrtc_PeerConnectionFactory_nativeInitializeAndroidGlobals__)
        at com.webrtc.PeerConnectionFactory.nativeInitializeAndroidGlobals(PeerConnectionFactory.java)
        at com.webrtc.PeerConnectionFactory.initialize(PeerConnectionFactory.java:306)
-       at com.oney.WebRTCModule.WebRTCModule.initAsync(WebRTCModule.java:79)
-       at com.oney.WebRTCModule.WebRTCModule.lambda$new$0(WebRTCModule.java:70)
-       at com.oney.WebRTCModule.-$$Lambda$WebRTCModule$CnyHZvkjDxq52UReGHUZlY0JsVw.run(-.java:4)
+       at org.honey.WebRTCModule.WebRTCModule.initAsync(WebRTCModule.java:79)
+       at org.honey.WebRTCModule.WebRTCModule.lambda$new$0(WebRTCModule.java:70)
+       at org.honey.WebRTCModule.-$$Lambda$WebRTCModule$CnyHZvkjDxq52UReGHUZlY0JsVw.run(-.java:4)
        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1162)
        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
        at java.lang.Thread.run(Thread.java:764)

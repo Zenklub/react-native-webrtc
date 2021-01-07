@@ -1,4 +1,4 @@
-package com.oney.WebRTCModule;
+package org.honey.WebRTCModule;
 
 import com.webrtc.VideoCapturer;
 

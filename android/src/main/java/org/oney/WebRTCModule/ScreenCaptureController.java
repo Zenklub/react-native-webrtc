@@ -1,4 +1,4 @@
-package com.oney.WebRTCModule;
+package org.honey.WebRTCModule;
 
 import android.content.Intent;
 import android.media.projection.MediaProjection;
