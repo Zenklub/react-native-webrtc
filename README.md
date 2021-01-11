@@ -3,7 +3,35 @@
 [![npm version](https://badge.fury.io/js/react-native-webrtc.svg)](https://badge.fury.io/js/react-native-webrtc)
 [![npm downloads](https://img.shields.io/npm/dm/react-native-webrtc.svg?maxAge=2592000)](https://img.shields.io/npm/dm/react-native-webrtc.svg?maxAge=2592000)
 
+## This fork has some new features:
+
+- This native module can be used with another webrtc (no more duplicated class error on Android)
+- Every webrtc's package id renamed from "org.webrtc" -> "com.webrtc"
+- Every native module's package id renamed from "com.honey.WebRTCModule" to "org.honey.WebRTCModule"
+- Using M88 chromium revision
+
+### On webrtc build was changed:
+
+From:
+
+```java
+private String nativeLibraryName = "jingle_peerconnection_so";
+```
+
+To:
+
+```java
+private String nativeLibraryName = "jingle_peer_connection_so";
+```
+
+And this:
+
+- Every `libjingle_peerconnection_so` lib name was changed to `libjingle_peer_connection_so`
+
+---
+
 A WebRTC module for React Native.
+
 - Support iOS / macOS / Android.
 - Support Video / Audio / Data Channels.
 
@@ -15,11 +43,11 @@ Everyone is welcome to our [Discourse community](https://react-native-webrtc.dis
 
 ## WebRTC Revision
 
-* Currently used revision: [M87](https://github.com/jitsi/webrtc/commit/9a88667ef7b46c175851506453c6cc6b642292cc)
-* Supported architectures
-  * Android: armeabi-v7a, arm64-v8a, x86, x86_64
-  * iOS: arm64, x86_64 (for bitcode support, run [this script](https://github.com/react-native-webrtc/react-native-webrtc/blob/master/tools/downloadBitcode.sh))
-  * macOS: x86_64
+- Currently used revision: [M87](https://github.com/jitsi/webrtc/commit/9a88667ef7b46c175851506453c6cc6b642292cc)
+- Supported architectures
+  - Android: armeabi-v7a, arm64-v8a, x86, x86_64
+  - iOS: arm64, x86_64 (for bitcode support, run [this script](https://github.com/react-native-webrtc/react-native-webrtc/blob/master/tools/downloadBitcode.sh))
+  - macOS: x86_64
 
 ## Installation
 
@@ -27,6 +55,7 @@ Everyone is welcome to our [Discourse community](https://react-native-webrtc.dis
 - [Android](https://github.com/react-native-webrtc/react-native-webrtc/blob/master/Documentation/AndroidInstallation.md)
 
 ## Usage
+
 Now, you can use WebRTC like in browser.
 In your `index.ios.js`/`index.android.js`, you can require WebRTC to import RTCPeerConnection, RTCSessionDescription, etc.
 
@@ -39,9 +68,10 @@ import {
   MediaStream,
   MediaStreamTrack,
   mediaDevices,
-  registerGlobals
+  registerGlobals,
 } from 'react-native-webrtc';
 ```
+
 Anything about using RTCPeerConnection, RTCSessionDescription and RTCIceCandidate is like browser.
 Support most WebRTC APIs, please see the [Document](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection).
 
@@ -98,16 +128,15 @@ However, render video stream should be used by React way.
 Rendering RTCView.
 
 ```javascript
-<RTCView streamURL={this.state.stream.toURL()}/>
+<RTCView streamURL={this.state.stream.toURL()} />
 ```
 
-| Name                           | Type             | Default                   | Description                                                                                                                                |
-| ------------------------------ | ---------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| mirror                         | boolean          | false               | Indicates whether the video specified by "streamURL" should be mirrored during rendering. Commonly, applications choose to mirror theuser-facing camera.                                                                                                                       |
-| objectFit                      | string           | 'contain'           | Can be contain or cover                                                                                                | 
-| streamURL                      | string           | ''                  | This is mandatory                                                                                                                      |
-| zOrder                         | number           | 0                   | Similarly to zIndex                                                                                              |
-
+| Name      | Type    | Default   | Description                                                                                                                                              |
+| --------- | ------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| mirror    | boolean | false     | Indicates whether the video specified by "streamURL" should be mirrored during rendering. Commonly, applications choose to mirror theuser-facing camera. |
+| objectFit | string  | 'contain' | Can be contain or cover                                                                                                                                  |
+| streamURL | string  | ''        | This is mandatory                                                                                                                                        |
+| zOrder    | number  | 0         | Similarly to zIndex                                                                                                                                      |
 
 ### Custom APIs
 
@@ -115,18 +144,17 @@ Rendering RTCView.
 
 By calling this method the JavaScript global namespace gets "polluted" with the following additions:
 
-* `navigator.mediaDevices.getUserMedia()`
-* `navigator.mediaDevices.enumerateDevices()`
-* `window.RTCPeerConnection`
-* `window.RTCIceCandidate`
-* `window.RTCSessionDescription`
-* `window.MediaStream`
-* `window.MediaStreamTrack`
+- `navigator.mediaDevices.getUserMedia()`
+- `navigator.mediaDevices.enumerateDevices()`
+- `window.RTCPeerConnection`
+- `window.RTCIceCandidate`
+- `window.RTCSessionDescription`
+- `window.MediaStream`
+- `window.MediaStreamTrack`
 
 This is useful to make existing WebRTC JavaScript libraries (that expect those globals to exist) work with react-native-webrtc.
 
-
-#### MediaStreamTrack.prototype._switchCamera()
+#### MediaStreamTrack.prototype.\_switchCamera()
 
 This function allows to switch the front / back cameras in a video track
 on the fly, without the need for adding / removing tracks or renegotiating.
