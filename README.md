@@ -5,12 +5,13 @@
 
 ## This fork has some new features:
 
-- This native module can be used with another webrtc (no more duplicated class error on Android)
-- Every webrtc's package id renamed from "org.webrtc" -> "com.webrtc"
-- Every native module's package id renamed from "com.honey.WebRTCModule" to "org.honey.WebRTCModule"
+- With this package you can use two WebRTC modules on same react native project (useful to avoid duplicated class error on Android)
+- Use this fork if you need to use Jitsi + React Native WebRTC
 - Using M88 chromium revision
 
-### On webrtc build was changed:
+PS: tested on Android only.
+
+### WebRTC build changes:
 
 From:
 
@@ -26,6 +27,8 @@ private String nativeLibraryName = "jingle_peer_connection_so";
 
 And this:
 
+- Every webrtc's package id renamed from "org.webrtc" -> "com.webrtc"
+- Every rn module's package id renamed from "com.honey.WebRTCModule" to "org.honey.WebRTCModule"
 - Every `libjingle_peerconnection_so` lib name was changed to `libjingle_peer_connection_so`
 
 ---
