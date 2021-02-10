@@ -5,7 +5,7 @@
 
 
 @implementation VideoCaptureController {
-    RTCCameraVideoCapturer *_capturer;
+    ZENCameraVideoCapturer *_capturer;
     NSString *_deviceId;
     BOOL _running;
     BOOL _usingFrontCamera;
@@ -14,7 +14,7 @@
     int _fps;
 }
 
--(instancetype)initWithCapturer:(RTCCameraVideoCapturer *)capturer
+-(instancetype)initWithCapturer:(ZENCameraVideoCapturer *)capturer
                  andConstraints:(NSDictionary *)constraints {
     self = [super init];
     if (self) {
@@ -123,7 +123,7 @@
 #pragma mark Private
 
 - (AVCaptureDevice *)findDeviceForPosition:(AVCaptureDevicePosition)position {
-    NSArray<AVCaptureDevice *> *captureDevices = [RTCCameraVideoCapturer captureDevices];
+    NSArray<AVCaptureDevice *> *captureDevices = [ZENCameraVideoCapturer captureDevices];
     for (AVCaptureDevice *device in captureDevices) {
         if (device.position == position) {
             return device;
@@ -137,7 +137,7 @@
                                  withTargetWidth:(int)targetWidth
                                 withTargetHeight:(int)targetHeight {
     NSArray<AVCaptureDeviceFormat *> *formats =
-    [RTCCameraVideoCapturer supportedFormatsForDevice:device];
+    [ZENCameraVideoCapturer supportedFormatsForDevice:device];
     AVCaptureDeviceFormat *selectedFormat = nil;
     int currentDiff = INT_MAX;
 

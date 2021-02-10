@@ -1,10 +1,10 @@
 
 #import <Foundation/Foundation.h>
-#import <WebRTC/RTCCameraVideoCapturer.h>
+#import <WebRTC/ZENCameraVideoCapturer.h>
 
 @interface VideoCaptureController : NSObject
 
--(instancetype)initWithCapturer:(RTCCameraVideoCapturer *)capturer
+-(instancetype)initWithCapturer:(ZENCameraVideoCapturer *)capturer
                  andConstraints:(NSDictionary *)constraints;
 -(void)startCapture;
 -(void)stopCapture;

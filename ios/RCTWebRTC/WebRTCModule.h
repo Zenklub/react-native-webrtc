@@ -12,13 +12,13 @@
 #import <React/RCTConvert.h>
 #import <React/RCTEventEmitter.h>
 
-#import <WebRTC/RTCMediaStream.h>
-#import <WebRTC/RTCPeerConnectionFactory.h>
-#import <WebRTC/RTCPeerConnection.h>
-#import <WebRTC/RTCAudioTrack.h>
-#import <WebRTC/RTCVideoTrack.h>
-#import <WebRTC/RTCVideoDecoderFactory.h>
-#import <WebRTC/RTCVideoEncoderFactory.h>
+#import <WebRTC/ZENMediaStream.h>
+#import <WebRTC/ZENPeerConnectionFactory.h>
+#import <WebRTC/ZENPeerConnection.h>
+#import <WebRTC/ZENAudioTrack.h>
+#import <WebRTC/ZENVideoTrack.h>
+#import <WebRTC/ZENVideoDecoderFactory.h>
+#import <WebRTC/ZENVideoEncoderFactory.h>
 
 static NSString *const kEventPeerConnectionSignalingStateChanged = @"peerConnectionSignalingStateChanged";
 static NSString *const kEventPeerConnectionStateChanged = @"peerConnectionStateChanged";
@@ -37,15 +37,15 @@ static NSString *const kEventMediaStreamTrackMuteChanged = @"mediaStreamTrackMut
 
 @property(nonatomic, strong) dispatch_queue_t workerQueue;
 
-@property (nonatomic, strong) RTCPeerConnectionFactory *peerConnectionFactory;
+@property (nonatomic, strong) ZENPeerConnectionFactory *peerConnectionFactory;
 
-@property (nonatomic, strong) NSMutableDictionary<NSNumber *, RTCPeerConnection *> *peerConnections;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, RTCMediaStream *> *localStreams;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, RTCMediaStreamTrack *> *localTracks;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber *, ZENPeerConnection *> *peerConnections;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, ZENMediaStream *> *localStreams;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, ZENMediaStreamTrack *> *localTracks;
 
-- (instancetype)initWithEncoderFactory:(id<RTCVideoEncoderFactory>)encoderFactory
-                        decoderFactory:(id<RTCVideoDecoderFactory>)decoderFactory;
+- (instancetype)initWithEncoderFactory:(id<ZENVideoEncoderFactory>)encoderFactory
+                        decoderFactory:(id<ZENVideoDecoderFactory>)decoderFactory;
 
-- (RTCMediaStream*)streamForReactTag:(NSString*)reactTag;
+- (ZENMediaStream*)streamForReactTag:(NSString*)reactTag;
 
 @end

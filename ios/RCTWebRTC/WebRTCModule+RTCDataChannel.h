@@ -1,12 +1,12 @@
 #import "WebRTCModule.h"
-#import <WebRTC/RTCDataChannel.h>
+#import <WebRTC/ZENDataChannel.h>
 
-@interface RTCDataChannel (React)
+@interface ZENDataChannel (React)
 
 @property (nonatomic, strong) NSNumber *peerConnectionId;
 
 @end
 
-@interface WebRTCModule (RTCDataChannel) <RTCDataChannelDelegate>
+@interface WebRTCModule (ZENDataChannel) <ZENDataChannelDelegate>
 
 @end

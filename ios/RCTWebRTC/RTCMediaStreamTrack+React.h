@@ -1,9 +1,9 @@
 
-#import <WebRTC/RTCMediaStreamTrack.h>
+#import <WebRTC/ZENMediaStreamTrack.h>
 
 #import "VideoCaptureController.h"
 
-@interface RTCMediaStreamTrack (React)
+@interface ZENMediaStreamTrack (React)
 
 @property (strong, nonatomic) VideoCaptureController *videoCaptureController;
 

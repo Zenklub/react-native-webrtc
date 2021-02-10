@@ -1,12 +1,12 @@
 #import "RCTConvert+WebRTC.h"
 #import <React/RCTLog.h>
-#import <WebRTC/RTCDataChannelConfiguration.h>
-#import <WebRTC/RTCIceServer.h>
-#import <WebRTC/RTCSessionDescription.h>
+#import <WebRTC/ZENDataChannelConfiguration.h>
+#import <WebRTC/ZENIceServer.h>
+#import <WebRTC/ZENSessionDescription.h>
 
 @implementation RCTConvert (WebRTC)
 
-+ (RTCSessionDescription *)RTCSessionDescription:(id)json
++ (ZENSessionDescription *)ZENSessionDescription:(id)json
 {
   if (!json) {
     RCTLogConvertError(json, @"must not be null");
@@ -24,12 +24,12 @@
   }
 
   NSString *sdp = json[@"sdp"];
-  RTCSdpType sdpType = [RTCSessionDescription typeForString:json[@"type"]];
+  RTCSdpType sdpType = [ZENSessionDescription typeForString:json[@"type"]];
 
-  return [[RTCSessionDescription alloc] initWithType:sdpType sdp:sdp];
+  return [[ZENSessionDescription alloc] initWithType:sdpType sdp:sdp];
 }
 
-+ (RTCIceCandidate *)RTCIceCandidate:(id)json
++ (ZENIceCandidate *)ZENIceCandidate:(id)json
 {
   if (!json) {
     RCTLogConvertError(json, @"must not be null");
@@ -52,10 +52,10 @@
   NSString *sdpMid = json[@"sdpMid"];
 
 
-  return [[RTCIceCandidate alloc] initWithSdp:sdp sdpMLineIndex:sdpMLineIndex sdpMid:sdpMid];
+  return [[ZENIceCandidate alloc] initWithSdp:sdp sdpMLineIndex:sdpMLineIndex sdpMid:sdpMid];
 }
 
-+ (RTCIceServer *)RTCIceServer:(id)json
++ (ZENIceServer *)ZENIceServer:(id)json
 {
   if (!json) {
     RCTLogConvertError(json, @"a valid iceServer value");
@@ -78,17 +78,17 @@
   }
 
   if (json[@"username"] != nil || json[@"credential"] != nil) {
-    return [[RTCIceServer alloc]initWithURLStrings:urls
+    return [[ZENIceServer alloc]initWithURLStrings:urls
                                         username:json[@"username"]
                                         credential:json[@"credential"]];
   }
 
-  return [[RTCIceServer alloc] initWithURLStrings:urls];
+  return [[ZENIceServer alloc] initWithURLStrings:urls];
 }
 
-+ (nonnull RTCConfiguration *)RTCConfiguration:(id)json
++ (nonnull ZENConfiguration *)ZENConfiguration:(id)json
 {
-  RTCConfiguration *config = [[RTCConfiguration alloc] init];
+  ZENConfiguration *config = [[ZENConfiguration alloc] init];
 
   if (!json) {
     return config;
@@ -123,9 +123,9 @@
   }
 
   if (json[@"iceServers"] != nil && [json[@"iceServers"] isKindOfClass:[NSArray class]]) {
-    NSMutableArray<RTCIceServer *> *iceServers = [NSMutableArray new];
+    NSMutableArray<ZENIceServer *> *iceServers = [NSMutableArray new];
     for (id server in json[@"iceServers"]) {
-      RTCIceServer *convert = [RCTConvert RTCIceServer:server];
+      ZENIceServer *convert = [RCTConvert ZENIceServer:server];
       if (convert != nil) {
         [iceServers addObject:convert];
       }
@@ -167,13 +167,13 @@
   return config;
 }
 
-+ (RTCDataChannelConfiguration *)RTCDataChannelConfiguration:(id)json
++ (ZENDataChannelConfiguration *)ZENDataChannelConfiguration:(id)json
 {
   if (!json) {
     return nil;
   }
   if ([json isKindOfClass:[NSDictionary class]]) {
-    RTCDataChannelConfiguration *init = [RTCDataChannelConfiguration new];
+    ZENDataChannelConfiguration *init = [ZENDataChannelConfiguration new];
 
     if (json[@"id"]) {
       [init setChannelId:[RCTConvert int:json[@"id"]]];

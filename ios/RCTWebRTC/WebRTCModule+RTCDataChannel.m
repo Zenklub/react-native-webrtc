@@ -3,11 +3,11 @@
 #import <React/RCTBridge.h>
 #import <React/RCTEventDispatcher.h>
 
-#import "WebRTCModule+RTCDataChannel.h"
-#import "WebRTCModule+RTCPeerConnection.h"
-#import <WebRTC/RTCDataChannelConfiguration.h>
+#import "WebRTCModule+ZENDataChannel.h"
+#import "WebRTCModule+ZENPeerConnection.h"
+#import <WebRTC/ZENDataChannelConfiguration.h>
 
-@implementation RTCDataChannel (React)
+@implementation ZENDataChannel (React)
 
 - (NSNumber *)peerConnectionId
 {
@@ -21,16 +21,16 @@
 
 @end
 
-@implementation WebRTCModule (RTCDataChannel)
+@implementation WebRTCModule (ZENDataChannel)
 
 RCT_EXPORT_METHOD(createDataChannel:(nonnull NSNumber *)peerConnectionId
                               label:(NSString *)label
-                             config:(RTCDataChannelConfiguration *)config
+                             config:(ZENDataChannelConfiguration *)config
 {
-  RTCPeerConnection *peerConnection = self.peerConnections[peerConnectionId];
-  RTCDataChannel *dataChannel = [peerConnection dataChannelForLabel:label configuration:config];
-  if (dataChannel != nil && (dataChannel.readyState == RTCDataChannelStateConnecting
-      || dataChannel.readyState == RTCDataChannelStateOpen)) {
+  ZENPeerConnection *peerConnection = self.peerConnections[peerConnectionId];
+  ZENDataChannel *dataChannel = [peerConnection dataChannelForLabel:label configuration:config];
+  if (dataChannel != nil && (dataChannel.readyState == ZENDataChannelStateConnecting
+      || dataChannel.readyState == ZENDataChannelStateOpen)) {
     dataChannel.peerConnectionId = peerConnectionId;
     NSNumber *dataChannelId = [NSNumber numberWithInteger:config.channelId];
     peerConnection.dataChannels[dataChannelId] = dataChannel;
@@ -41,9 +41,9 @@ RCT_EXPORT_METHOD(createDataChannel:(nonnull NSNumber *)peerConnectionId
 RCT_EXPORT_METHOD(dataChannelClose:(nonnull NSNumber *)peerConnectionId
                      dataChannelId:(nonnull NSNumber *)dataChannelId
 {
-  RTCPeerConnection *peerConnection = self.peerConnections[peerConnectionId];
+  ZENPeerConnection *peerConnection = self.peerConnections[peerConnectionId];
   NSMutableDictionary *dataChannels = peerConnection.dataChannels;
-  RTCDataChannel *dataChannel = dataChannels[dataChannelId];
+  ZENDataChannel *dataChannel = dataChannels[dataChannelId];
   [dataChannel close];
   [dataChannels removeObjectForKey:dataChannelId];
 })
@@ -53,8 +53,8 @@ RCT_EXPORT_METHOD(dataChannelSend:(nonnull NSNumber *)peerConnectionId
                              data:(NSString *)data
                              type:(NSString *)type
 {
-  RTCPeerConnection *peerConnection = self.peerConnections[peerConnectionId];
-  RTCDataChannel *dataChannel = peerConnection.dataChannels[dataChannelId];
+  ZENPeerConnection *peerConnection = self.peerConnections[peerConnectionId];
+  ZENDataChannel *dataChannel = peerConnection.dataChannels[dataChannelId];
   NSData *bytes = [type isEqualToString:@"binary"] ?
     [[NSData alloc] initWithBase64EncodedString:data options:0] :
     [data dataUsingEncoding:NSUTF8StringEncoding];
@@ -62,21 +62,21 @@ RCT_EXPORT_METHOD(dataChannelSend:(nonnull NSNumber *)peerConnectionId
   [dataChannel sendData:buffer];
 })
 
-- (NSString *)stringForDataChannelState:(RTCDataChannelState)state
+- (NSString *)stringForDataChannelState:(ZENDataChannelState)state
 {
   switch (state) {
-    case RTCDataChannelStateConnecting: return @"connecting";
-    case RTCDataChannelStateOpen: return @"open";
-    case RTCDataChannelStateClosing: return @"closing";
-    case RTCDataChannelStateClosed: return @"closed";
+    case ZENDataChannelStateConnecting: return @"connecting";
+    case ZENDataChannelStateOpen: return @"open";
+    case ZENDataChannelStateClosing: return @"closing";
+    case ZENDataChannelStateClosed: return @"closed";
   }
   return nil;
 }
 
-#pragma mark - RTCDataChannelDelegate methods
+#pragma mark - ZENDataChannelDelegate methods
 
 // Called when the data channel state has changed.
-- (void)dataChannelDidChangeState:(RTCDataChannel*)channel
+- (void)dataChannelDidChangeState:(ZENDataChannel*)channel
 {
   NSDictionary *event = @{@"id": @(channel.channelId),
                           @"peerConnectionId": channel.peerConnectionId,
@@ -85,7 +85,7 @@ RCT_EXPORT_METHOD(dataChannelSend:(nonnull NSNumber *)peerConnectionId
 }
 
 // Called when a data buffer was successfully received.
-- (void)dataChannel:(RTCDataChannel *)channel didReceiveMessageWithBuffer:(RTCDataBuffer *)buffer
+- (void)dataChannel:(ZENDataChannel *)channel didReceiveMessageWithBuffer:(RTCDataBuffer *)buffer
 {
   NSString *type;
   NSString *data;

@@ -13,11 +13,11 @@
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTUtils.h>
 
-#import <WebRTC/RTCDefaultVideoDecoderFactory.h>
-#import <WebRTC/RTCDefaultVideoEncoderFactory.h>
+#import <WebRTC/ZENDefaultVideoDecoderFactory.h>
+#import <WebRTC/ZENDefaultVideoEncoderFactory.h>
 
 #import "WebRTCModule.h"
-#import "WebRTCModule+RTCPeerConnection.h"
+#import "WebRTCModule+ZENPeerConnection.h"
 
 @interface WebRTCModule ()
 @end
@@ -37,7 +37,7 @@
   _localStreams = nil;
 
   for (NSNumber *peerConnectionId in _peerConnections) {
-    RTCPeerConnection *peerConnection = _peerConnections[peerConnectionId];
+    ZENPeerConnection *peerConnection = _peerConnections[peerConnectionId];
     peerConnection.delegate = nil;
     [peerConnection close];
   }
@@ -51,19 +51,19 @@
     return [self initWithEncoderFactory:nil decoderFactory:nil];
 }
 
-- (instancetype)initWithEncoderFactory:(nullable id<RTCVideoEncoderFactory>)encoderFactory
-                        decoderFactory:(nullable id<RTCVideoDecoderFactory>)decoderFactory
+- (instancetype)initWithEncoderFactory:(nullable id<ZENVideoEncoderFactory>)encoderFactory
+                        decoderFactory:(nullable id<ZENVideoDecoderFactory>)decoderFactory
 {
   self = [super init];
   if (self) {
     if (encoderFactory == nil) {
-      encoderFactory = [[RTCDefaultVideoEncoderFactory alloc] init];
+      encoderFactory = [[ZENDefaultVideoEncoderFactory alloc] init];
     }
     if (decoderFactory == nil) {
-      decoderFactory = [[RTCDefaultVideoDecoderFactory alloc] init];
+      decoderFactory = [[ZENDefaultVideoDecoderFactory alloc] init];
     }
     _peerConnectionFactory
-      = [[RTCPeerConnectionFactory alloc] initWithEncoderFactory:encoderFactory
+      = [[ZENPeerConnectionFactory alloc] initWithEncoderFactory:encoderFactory
                                                   decoderFactory:decoderFactory];
 
     _peerConnections = [NSMutableDictionary new];
@@ -78,12 +78,12 @@
   return self;
 }
 
-- (RTCMediaStream*)streamForReactTag:(NSString*)reactTag
+- (ZENMediaStream*)streamForReactTag:(NSString*)reactTag
 {
-  RTCMediaStream *stream = _localStreams[reactTag];
+  ZENMediaStream *stream = _localStreams[reactTag];
   if (!stream) {
     for (NSNumber *peerConnectionId in _peerConnections) {
-      RTCPeerConnection *peerConnection = _peerConnections[peerConnectionId];
+      ZENPeerConnection *peerConnection = _peerConnections[peerConnectionId];
       stream = peerConnection.remoteStreams[reactTag];
       if (stream) {
         break;
