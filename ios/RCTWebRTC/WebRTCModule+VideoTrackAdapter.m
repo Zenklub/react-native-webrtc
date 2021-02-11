@@ -8,11 +8,11 @@
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTLog.h>
 
-#import <WebRTC/ZENVideoRenderer.h>
-#import <WebRTC/ZENVideoTrack.h>
+#import <WebRTC/RTCVideoRenderer.h>
+#import <WebRTC/RTCVideoTrack.h>
 
 #import "WebRTCModule.h"
-#import "WebRTCModule+ZENPeerConnection.h"
+#import "WebRTCModule+RTCPeerConnection.h"
 #import "WebRTCModule+VideoTrackAdapter.h"
 
 /* Mute detection timer intervals. The initial timeout will be longer to
@@ -26,7 +26,7 @@ static const NSTimeInterval MUTE_DELAY = 1.5;
  * stalled for the default interval it will emit a mute event. If frame keep
  * being received, the track unmute event will be emitted.
  */
-@interface TrackMuteDetector : NSObject<ZENVideoRenderer>
+@interface TrackMuteDetector : NSObject<RTCVideoRenderer>
 
 @property (copy, nonatomic) NSNumber *peerConnectionId;
 @property (copy, nonatomic) NSString *streamReactTag;
@@ -122,17 +122,17 @@ static const NSTimeInterval MUTE_DELAY = 1.5;
     dispatch_resume(_timer);
 }
 
-- (void)renderFrame:(nullable ZENVideoFrame *)frame {
+- (void)renderFrame:(nullable RTCVideoFrame *)frame {
     atomic_fetch_add(&_frameCount, 1);
 }
 
 - (void)setSize:(CGSize)size {
-    // XXX unneeded for our purposes, but part of ZENVideoRenderer.
+    // XXX unneeded for our purposes, but part of RTCVideoRenderer.
 }
 
 @end
 
-@implementation ZENPeerConnection (VideoTrackAdapter)
+@implementation RTCPeerConnection (VideoTrackAdapter)
 
 - (NSMutableDictionary<NSString *, id> *)videoTrackAdapters
 {
@@ -144,7 +144,7 @@ static const NSTimeInterval MUTE_DELAY = 1.5;
     objc_setAssociatedObject(self, @selector(videoTrackAdapters), videoTrackAdapters, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)addVideoTrackAdapter:(NSString*)streamReactId track:(ZENVideoTrack*)track {
+- (void)addVideoTrackAdapter:(NSString*)streamReactId track:(RTCVideoTrack*)track {
     NSString* trackId = track.trackId;
     if ([self.videoTrackAdapters objectForKey:trackId] != nil) {
         RCTLogWarn(@"[VideoTrackAdapter] Adapter already exists for track %@", trackId);
@@ -163,7 +163,7 @@ static const NSTimeInterval MUTE_DELAY = 1.5;
     RCTLogTrace(@"[VideoTrackAdapter] Adapter created for track %@", trackId);
 }
 
-- (void)removeVideoTrackAdapter:(ZENVideoTrack*)track {
+- (void)removeVideoTrackAdapter:(RTCVideoTrack*)track {
     NSString* trackId = track.trackId;
     TrackMuteDetector* muteDetector
         = [self.videoTrackAdapters objectForKey:trackId];

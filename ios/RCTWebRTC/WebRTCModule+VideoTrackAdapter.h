@@ -1,13 +1,13 @@
 
 #import "WebRTCModule.h"
-#import <WebRTC/ZENPeerConnection.h>
+#import <WebRTC/RTCPeerConnection.h>
 
-@interface ZENPeerConnection (VideoTrackAdapter)
+@interface RTCPeerConnection (VideoTrackAdapter)
 
 @property (nonatomic, strong) NSMutableDictionary<NSString *,  id> *videoTrackAdapters;
 
-- (void)addVideoTrackAdapter:(NSString*)streamReactId track:(ZENVideoTrack*)track;
-- (void)removeVideoTrackAdapter:(ZENVideoTrack*)track;
+- (void)addVideoTrackAdapter:(NSString*)streamReactId track:(RTCVideoTrack*)track;
+- (void)removeVideoTrackAdapter:(RTCVideoTrack*)track;
 
 @end
 

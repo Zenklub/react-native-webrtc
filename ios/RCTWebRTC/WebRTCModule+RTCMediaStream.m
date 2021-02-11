@@ -1,5 +1,5 @@
 //
-//  WebRTCModule+ZENMediaStream.m
+//  WebRTCModule+RTCMediaStream.m
 //
 //  Created by one on 2015/9/24.
 //  Copyright © 2015 One. All rights reserved.
@@ -7,41 +7,41 @@
 
 #import <objc/runtime.h>
 
-#import <WebRTC/ZENCameraVideoCapturer.h>
-#import <WebRTC/ZENVideoTrack.h>
-#import <WebRTC/ZENMediaConstraints.h>
+#import <WebRTC/RTCCameraVideoCapturer.h>
+#import <WebRTC/RTCVideoTrack.h>
+#import <WebRTC/RTCMediaConstraints.h>
 
-#import "ZENMediaStreamTrack+React.h"
-#import "WebRTCModule+ZENPeerConnection.h"
+#import "RTCMediaStreamTrack+React.h"
+#import "WebRTCModule+RTCPeerConnection.h"
 
-@implementation WebRTCModule (ZENMediaStream)
+@implementation WebRTCModule (RTCMediaStream)
 
 #pragma mark - getUserMedia
 
 /**
- * Initializes a new {@link ZENAudioTrack} which satisfies the given constraints.
+ * Initializes a new {@link RTCAudioTrack} which satisfies the given constraints.
  *
  * @param constraints The {@code MediaStreamConstraints} which the new
- * {@code ZENAudioTrack} instance is to satisfy.
+ * {@code RTCAudioTrack} instance is to satisfy.
  */
-- (ZENAudioTrack *)createAudioTrack:(NSDictionary *)constraints {
+- (RTCAudioTrack *)createAudioTrack:(NSDictionary *)constraints {
   NSString *trackId = [[NSUUID UUID] UUIDString];
-  ZENAudioTrack *audioTrack
+  RTCAudioTrack *audioTrack
     = [self.peerConnectionFactory audioTrackWithTrackId:trackId];
   return audioTrack;
 }
 
 /**
- * Initializes a new {@link ZENVideoTrack} which satisfies the given constraints.
+ * Initializes a new {@link RTCVideoTrack} which satisfies the given constraints.
  */
-- (ZENVideoTrack *)createVideoTrack:(NSDictionary *)constraints {
-  ZENVideoSource *videoSource = [self.peerConnectionFactory videoSource];
+- (RTCVideoTrack *)createVideoTrack:(NSDictionary *)constraints {
+  RTCVideoSource *videoSource = [self.peerConnectionFactory videoSource];
 
   NSString *trackUUID = [[NSUUID UUID] UUIDString];
-  ZENVideoTrack *videoTrack = [self.peerConnectionFactory videoTrackWithSource:videoSource trackId:trackUUID];
+  RTCVideoTrack *videoTrack = [self.peerConnectionFactory videoTrackWithSource:videoSource trackId:trackUUID];
 
 #if !TARGET_IPHONE_SIMULATOR
-  ZENCameraVideoCapturer *videoCapturer = [[ZENCameraVideoCapturer alloc] initWithDelegate:videoSource];
+  RTCCameraVideoCapturer *videoCapturer = [[RTCCameraVideoCapturer alloc] initWithDelegate:videoSource];
   VideoCaptureController *videoCaptureController
         = [[VideoCaptureController alloc] initWithCapturer:videoCapturer
                                             andConstraints:constraints[@"video"]];
@@ -62,8 +62,8 @@
 RCT_EXPORT_METHOD(getUserMedia:(NSDictionary *)constraints
                successCallback:(RCTResponseSenderBlock)successCallback
                  errorCallback:(RCTResponseSenderBlock)errorCallback) {
-  ZENAudioTrack *audioTrack = nil;
-  ZENVideoTrack *videoTrack = nil;
+  RTCAudioTrack *audioTrack = nil;
+  RTCVideoTrack *videoTrack = nil;
 
   if (constraints[@"audio"]) {
       audioTrack = [self createAudioTrack:constraints];
@@ -80,7 +80,7 @@ RCT_EXPORT_METHOD(getUserMedia:(NSDictionary *)constraints
   }
 
   NSString *mediaStreamId = [[NSUUID UUID] UUIDString];
-  ZENMediaStream *mediaStream
+  RTCMediaStream *mediaStream
     = [self.peerConnectionFactory mediaStreamWithStreamId:mediaStreamId];
   NSMutableArray *tracks = [NSMutableArray array];
   NSMutableArray *tmp = [NSMutableArray array];
@@ -89,11 +89,11 @@ RCT_EXPORT_METHOD(getUserMedia:(NSDictionary *)constraints
   if (videoTrack)
       [tmp addObject:videoTrack];
 
-  for (ZENMediaStreamTrack *track in tmp) {
+  for (RTCMediaStreamTrack *track in tmp) {
     if ([track.kind isEqualToString:@"audio"]) {
-      [mediaStream addAudioTrack:(ZENAudioTrack *)track];
+      [mediaStream addAudioTrack:(RTCAudioTrack *)track];
     } else if([track.kind isEqualToString:@"video"]) {
-      [mediaStream addVideoTrack:(ZENVideoTrack *)track];
+      [mediaStream addVideoTrack:(RTCVideoTrack *)track];
     }
 
     NSString *trackId = track.trackId;
@@ -162,41 +162,41 @@ RCT_EXPORT_METHOD(enumerateDevices:(RCTResponseSenderBlock)callback)
 
 RCT_EXPORT_METHOD(mediaStreamCreate:(nonnull NSString *)streamID)
 {
-    ZENMediaStream *mediaStream = [self.peerConnectionFactory mediaStreamWithStreamId:streamID];
+    RTCMediaStream *mediaStream = [self.peerConnectionFactory mediaStreamWithStreamId:streamID];
     self.localStreams[streamID] = mediaStream;
 }
 
 RCT_EXPORT_METHOD(mediaStreamAddTrack:(nonnull NSString *)streamID : (nonnull NSString *)trackID)
 {
-    ZENMediaStream *mediaStream = self.localStreams[streamID];
-    ZENMediaStreamTrack *track = [self trackForId:trackID];
+    RTCMediaStream *mediaStream = self.localStreams[streamID];
+    RTCMediaStreamTrack *track = [self trackForId:trackID];
 
     if (mediaStream && track) {
         if ([track.kind isEqualToString:@"audio"]) {
-            [mediaStream addAudioTrack:(ZENAudioTrack *)track];
+            [mediaStream addAudioTrack:(RTCAudioTrack *)track];
         } else if([track.kind isEqualToString:@"video"]) {
-            [mediaStream addVideoTrack:(ZENVideoTrack *)track];
+            [mediaStream addVideoTrack:(RTCVideoTrack *)track];
         }
     }
 }
 
 RCT_EXPORT_METHOD(mediaStreamRemoveTrack:(nonnull NSString *)streamID : (nonnull NSString *)trackID)
 {
-    ZENMediaStream *mediaStream = self.localStreams[streamID];
-    ZENMediaStreamTrack *track = [self trackForId:trackID];
+    RTCMediaStream *mediaStream = self.localStreams[streamID];
+    RTCMediaStreamTrack *track = [self trackForId:trackID];
 
     if (mediaStream && track) {
         if ([track.kind isEqualToString:@"audio"]) {
-            [mediaStream removeAudioTrack:(ZENAudioTrack *)track];
+            [mediaStream removeAudioTrack:(RTCAudioTrack *)track];
         } else if([track.kind isEqualToString:@"video"]) {
-            [mediaStream removeVideoTrack:(ZENVideoTrack *)track];
+            [mediaStream removeVideoTrack:(RTCVideoTrack *)track];
         }
     }
 }
 
 RCT_EXPORT_METHOD(mediaStreamRelease:(nonnull NSString *)streamID)
 {
-  ZENMediaStream *stream = self.localStreams[streamID];
+  RTCMediaStream *stream = self.localStreams[streamID];
   if (stream) {
     [self.localStreams removeObjectForKey:streamID];
   }
@@ -204,7 +204,7 @@ RCT_EXPORT_METHOD(mediaStreamRelease:(nonnull NSString *)streamID)
 
 RCT_EXPORT_METHOD(mediaStreamTrackRelease:(nonnull NSString *)trackID)
 {
-    ZENMediaStreamTrack *track = self.localTracks[trackID];
+    RTCMediaStreamTrack *track = self.localTracks[trackID];
     if (track) {
         track.isEnabled = NO;
         [track.videoCaptureController stopCapture];
@@ -214,7 +214,7 @@ RCT_EXPORT_METHOD(mediaStreamTrackRelease:(nonnull NSString *)trackID)
 
 RCT_EXPORT_METHOD(mediaStreamTrackSetEnabled:(nonnull NSString *)trackID : (BOOL)enabled)
 {
-  ZENMediaStreamTrack *track = [self trackForId:trackID];
+  RTCMediaStreamTrack *track = [self trackForId:trackID];
   if (track) {
     track.isEnabled = enabled;
     if (track.videoCaptureController) {  // It could be a remote track!
@@ -229,21 +229,21 @@ RCT_EXPORT_METHOD(mediaStreamTrackSetEnabled:(nonnull NSString *)trackID : (BOOL
 
 RCT_EXPORT_METHOD(mediaStreamTrackSwitchCamera:(nonnull NSString *)trackID)
 {
-  ZENMediaStreamTrack *track = self.localTracks[trackID];
+  RTCMediaStreamTrack *track = self.localTracks[trackID];
   if (track) {
-    ZENVideoTrack *videoTrack = (ZENVideoTrack *)track;
+    RTCVideoTrack *videoTrack = (RTCVideoTrack *)track;
     [videoTrack.videoCaptureController switchCamera];
   }
 }
 
 #pragma mark - Helpers
 
-- (ZENMediaStreamTrack*)trackForId:(NSString*)trackId
+- (RTCMediaStreamTrack*)trackForId:(NSString*)trackId
 {
-  ZENMediaStreamTrack *track = self.localTracks[trackId];
+  RTCMediaStreamTrack *track = self.localTracks[trackId];
   if (!track) {
     for (NSNumber *peerConnectionId in self.peerConnections) {
-      ZENPeerConnection *peerConnection = self.peerConnections[peerConnectionId];
+      RTCPeerConnection *peerConnection = self.peerConnections[peerConnectionId];
       track = peerConnection.remoteTracks[trackId];
       if (track) {
         break;

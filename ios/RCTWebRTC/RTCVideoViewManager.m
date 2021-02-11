@@ -10,15 +10,15 @@
 
 #import <React/RCTLog.h>
 #if !TARGET_OS_OSX
-#import <WebRTC/ZENEAGLVideoView.h>
+#import <WebRTC/RTCEAGLVideoView.h>
 #endif
-#import <WebRTC/ZENMediaStream.h>
+#import <WebRTC/RTCMediaStream.h>
 #if !TARGET_OS_OSX
-#import <WebRTC/ZENMTLVideoView.h>
+#import <WebRTC/RTCMTLVideoView.h>
 #else
 #import <WebRTC/RTCMTLNSVideoView.h>
 #endif
-#import <WebRTC/ZENVideoTrack.h>
+#import <WebRTC/RTCVideoTrack.h>
 
 #import "RTCVideoViewManager.h"
 #import "WebRTCModule.h"
@@ -73,20 +73,20 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
 @property (nonatomic) RTCVideoViewObjectFit objectFit;
 
 /**
- * The {@link RZENVideoRenderer} which implements the actual rendering and which
+ * The {@link RRTCVideoRenderer} which implements the actual rendering and which
  * fits within this view so that the rendered video preserves the aspect ratio of
  * {@link #_videoSize}.
  */
 #if !TARGET_OS_OSX
-@property (nonatomic, readonly) __kindof UIView<ZENVideoRenderer> *videoView;
+@property (nonatomic, readonly) __kindof UIView<RTCVideoRenderer> *videoView;
 #else
-@property (nonatomic, readonly) __kindof NSView<ZENVideoRenderer> *videoView;
+@property (nonatomic, readonly) __kindof NSView<RTCVideoRenderer> *videoView;
 #endif
 
 /**
- * The {@link ZENVideoTrack}, if any, which this instance renders.
+ * The {@link RTCVideoTrack}, if any, which this instance renders.
  */
-@property (nonatomic, strong) ZENVideoTrack *videoTrack;
+@property (nonatomic, strong) RTCVideoTrack *videoTrack;
 
 /**
  * Reference to the main WebRTC RN module.
@@ -109,12 +109,12 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
  */
 - (void)didMoveToWindow {
   // XXX This RTCVideoView strongly retains its videoTrack. The latter strongly
-  // retains the former as well though because ZENVideoTrack strongly retains
-  // the ZENVideoRenderers added to it. In other words, there is a cycle of
+  // retains the former as well though because RTCVideoTrack strongly retains
+  // the RTCVideoRenderers added to it. In other words, there is a cycle of
   // strong retainments and, consequently, there is a memory leak. In order to
-  // break the cycle, have this RTCVideoView as the ZENVideoRenderer of its
+  // break the cycle, have this RTCVideoView as the RTCVideoRenderer of its
   // videoTrack only while this view resides in a window.
-  ZENVideoTrack *videoTrack = self.videoTrack;
+  RTCVideoTrack *videoTrack = self.videoTrack;
 
   if (videoTrack) {
     if (self.window) {
@@ -146,7 +146,7 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
   if (self = [super initWithFrame:frame]) {
 #if defined(RTC_SUPPORTS_METAL)
 #if !TARGET_OS_OSX
-    ZENMTLVideoView *subview = [[ZENMTLVideoView alloc] initWithFrame:CGRectZero];
+    RTCMTLVideoView *subview = [[RTCMTLVideoView alloc] initWithFrame:CGRectZero];
     subview.delegate = self;
     _videoView = subview;
 #else
@@ -157,7 +157,7 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
 #endif
 #else
 #if !TARGET_OS_OSX
-    ZENEAGLVideoView *subview = [[ZENEAGLVideoView alloc] initWithFrame:CGRectZero];
+    RTCEAGLVideoView *subview = [[RTCEAGLVideoView alloc] initWithFrame:CGRectZero];
     subview.delegate = self;
     _videoView = subview;
 #else
@@ -294,8 +294,8 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
  * @param videoTrack The value to set on the {@code videoTrack} property of this
  * {@code RTCVideoView}.
  */
-- (void)setVideoTrack:(ZENVideoTrack *)videoTrack {
-  ZENVideoTrack *oldValue = self.videoTrack;
+- (void)setVideoTrack:(RTCVideoTrack *)videoTrack {
+  RTCVideoTrack *oldValue = self.videoTrack;
 
   if (oldValue != videoTrack) {
     if (oldValue) {
@@ -315,10 +315,10 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
     _videoTrack = videoTrack;
 
     // XXX This RTCVideoView strongly retains its videoTrack. The latter
-    // strongly retains the former as well though because ZENVideoTrack strongly
-    // retains the ZENVideoRenderers added to it. In other words, there is a
+    // strongly retains the former as well though because RTCVideoTrack strongly
+    // retains the RTCVideoRenderers added to it. In other words, there is a
     // cycle of strong retainments and, consequently, there is a memory leak. In
-    // order to break the cycle, have this RTCVideoView as the ZENVideoRenderer
+    // order to break the cycle, have this RTCVideoView as the RTCVideoRenderer
     // of its videoTrack only while this view resides in a window.
     if (videoTrack && self.window) {
         dispatch_async(_module.workerQueue, ^{
@@ -332,15 +332,15 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
 
 /**
  * Notifies this {@link RTCVideoViewDelegate} that a specific
- * {@link ZENVideoRenderer} had the size of the video (frames) it renders
+ * {@link RTCVideoRenderer} had the size of the video (frames) it renders
  * changed.
  *
- * @param videoView The {@code ZENVideoRenderer} which had the size of the video
+ * @param videoView The {@code RTCVideoRenderer} which had the size of the video
  * (frames) it renders changed to the specified size.
  * @param size The new size of the video (frames) to be rendered by the
  * specified {@code videoView}.
  */
-- (void)videoView:(id<ZENVideoRenderer>)videoView didChangeVideoSize:(CGSize)size {
+- (void)videoView:(id<RTCVideoRenderer>)videoView didChangeVideoSize:(CGSize)size {
   if (videoView == self.videoView) {
     _videoSize = size;
     
@@ -403,9 +403,9 @@ RCT_CUSTOM_VIEW_PROPERTY(streamURL, NSString *, RTCVideoView) {
     WebRTCModule *module = view.module;
 
     dispatch_async(module.workerQueue, ^{
-        ZENMediaStream *stream = [module streamForReactTag:streamReactTag];
+        RTCMediaStream *stream = [module streamForReactTag:streamReactTag];
         NSArray *videoTracks = stream ? stream.videoTracks : @[];
-        ZENVideoTrack *videoTrack = [videoTracks firstObject];
+        RTCVideoTrack *videoTrack = [videoTracks firstObject];
         if (!videoTrack) {
             RCTLogWarn(@"No video stream for react tag: %@", streamReactTag);
         } else {

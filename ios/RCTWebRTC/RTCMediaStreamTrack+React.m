@@ -1,8 +1,8 @@
 #import <objc/runtime.h>
 
-#import "ZENMediaStreamTrack+React.h"
+#import "RTCMediaStreamTrack+React.h"
 
-@implementation ZENMediaStreamTrack (React)
+@implementation RTCMediaStreamTrack (React)
 
 - (VideoCaptureController *)videoCaptureController {
     return objc_getAssociatedObject(self, @selector(videoCaptureController));
